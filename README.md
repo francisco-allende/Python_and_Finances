@@ -1,2 +1,2 @@
 # Python_&_Finances
-Curso de UTN sobre Py aplciado a finanzas
+Curso de UTN sobre Py aplicado a finanzas
