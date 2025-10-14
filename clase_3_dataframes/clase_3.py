@@ -45,14 +45,49 @@ print(df_wine_acid_and_alcohol)
 
 #5) Con la ayuda de un merge, traer esta nueva columna al DataFrame original llamado df_wine
 
-merge_left = pd.merge(df_wine, df_wine_acid_and_alcohol, how='left') #position left porque no me pide filtrar, sino mantener el original con nueva info
+df_wine_merge_left = pd.merge(df_wine, df_wine_acid_and_alcohol, how='left') #position left porque no me pide filtrar, sino mantener el original con nueva info
 print("Data frame original con la nueva columna Warning")
-print(merge_left)
+print(df_wine_merge_left)
 
 #6) Realizar un análisis de valores nulos en df_wine, los que terminen quedando (si hicieron todo bien, 
 #solamente estarían en la nueva columna llamada “acid_alcohol”) reemplazarlos por “No Warning”
 
 #Analizo valores no nulos
-df_wine.isnull().sum()
+print("DF remplaza nulls por no warning\n Cantidad de nulos:")
+print(df_wine_merge_left.isnull().sum())
+
+#sobre el df mergeado, remplazo los valores
+df_wine_merged_not_null = df_wine_merge_left.fillna("No Warning")
+print("\nDataframe con los nulos remplazados por No Warning\n")
+print(df_wine_merged_not_null)
 
 #7) Hacer una agrupación por la columna “acid_alcohol” y calcular la media y desvío estándar para cada variable
+
+#Conceptos básicos
+#🔹 Media (promedio)
+    #Es el valor promedio de una variable.
+# Ejemplo:
+    # media = (10 `+ 20 + 30) / 3 
+    # media = 20
+
+#🔹 Desvío estánda
+# Mide cuánto se dispersan los datos respecto de la media.
+    #Si el desvío es bajo, los valores están concentrados cerca del promedio.
+    #Si el desvío es alto, los valores están muy dispersos.
+
+#Ejemplo
+    #Grupo A: [19, 20, 21] → media = 20, desvío bajo
+    #Grupo B: [5, 20, 35] → media = 20, desvío alto
+
+media = df_wine_merged_not_null.groupby("acid_alcohol").mean()
+print("\nMedia por grupo Warning/No Warning\n")
+print(media)
+
+std = df_wine_merged_not_null.groupby("acid_alcohol").std()
+print("\nDesvio estandar por grupo Warning/No Warning\n")
+print(std)
+
+# Calcular media y desvío estándar por grupo
+group_stats = df_wine_merged_not_null.groupby("acid_alcohol").agg(['mean', 'std'])
+print("\nMedia y Desvío Estándar por grupo Warning/No Warning\n")
+print(group_stats)
